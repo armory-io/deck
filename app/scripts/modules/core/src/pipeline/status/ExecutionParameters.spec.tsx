@@ -25,7 +25,7 @@ describe('<ExecutionParameters/>', () => {
       },
     } as any;
 
-    component = shallow(<ExecutionParameters execution={execution} showingParams={true} columnLayoutAfter={10} />);
+    component = shallow(<ExecutionParameters execution={execution} shouldShowAllParams={true} />);
 
     expect(component.state().parameters).toEqual([
       { key: 'a', value: '"b"' },
@@ -43,14 +43,14 @@ describe('<ExecutionParameters/>', () => {
       },
     } as any;
 
-    component = shallow(<ExecutionParameters execution={execution} showingParams={false} columnLayoutAfter={10} />);
+    component = shallow(<ExecutionParameters execution={execution} shouldShowAllParams={false} />);
 
     expect(component.get(0)).toEqual(null);
   });
 
   it('does not add parameters to vm if none present in trigger', function() {
     const execution: IExecution = { trigger: {} } as any;
-    component = shallow(<ExecutionParameters execution={execution} showingParams={true} columnLayoutAfter={10} />);
+    component = shallow(<ExecutionParameters execution={execution} shouldShowAllParams={true} />);
     expect(component.state().parameters).toEqual([]);
   });
 
@@ -69,7 +69,7 @@ describe('<ExecutionParameters/>', () => {
       },
     } as any;
 
-    component = shallow(<ExecutionParameters execution={execution} showingParams={true} columnLayoutAfter={10} />);
+    component = shallow(<ExecutionParameters execution={execution} shouldShowAllParams={true} />);
 
     expect(component.state().parameters).toEqual([{ key: 'included', value: '"a"' }]);
   });
@@ -84,7 +84,7 @@ describe('<ExecutionParameters/>', () => {
       },
     } as any;
 
-    component = shallow(<ExecutionParameters execution={execution} showingParams={true} columnLayoutAfter={10} />);
+    component = shallow(<ExecutionParameters execution={execution} shouldShowAllParams={true} />);
 
     expect(component.find('.execution-parameters-column').length).toEqual(1);
     expect(component.find('.parameter-key').length).toEqual(2);
@@ -101,7 +101,7 @@ describe('<ExecutionParameters/>', () => {
       },
     } as any;
 
-    component = shallow(<ExecutionParameters execution={execution} showingParams={true} columnLayoutAfter={2} />);
+    component = shallow(<ExecutionParameters execution={execution} shouldShowAllParams={true} />);
 
     expect(component.find('.execution-parameters-column').length).toEqual(2);
     expect(component.find('.parameter-key').length).toEqual(2);

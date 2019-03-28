@@ -10,7 +10,7 @@ import { CopyToClipboard } from 'core/utils';
 import { StageExecutionDetails } from 'core/pipeline/details/StageExecutionDetails';
 import { ExecutionStatus } from 'core/pipeline/status/ExecutionStatus';
 import { ExecutionParameters } from 'core/pipeline/status/ExecutionParameters';
-import { IExecution, IRestartDetails, IPipeline } from 'core/domain';
+import { IExecution, IRestartDetails, IPipeline, IParameter } from 'core/domain';
 import { IExecutionViewState, IPipelineGraphNode } from 'core/pipeline/config/graph/pipelineGraph.service';
 import { ResolvedArtifactList } from 'core/pipeline/status/ResolvedArtifactList';
 import { OrchestratedItemRunningTime } from './OrchestratedItemRunningTime';
@@ -28,10 +28,12 @@ import { Tooltip } from 'core/presentation/Tooltip';
 import { CancelModal } from 'core/cancelModal/CancelModal';
 
 import './execution.less';
+import memoize from 'memoize-one';
 
 export interface IExecutionProps {
   application: Application;
   execution: IExecution;
+  pipelineConfig: IPipeline;
   showDurations?: boolean;
   standalone?: boolean;
   title?: string | JSX.Element;
@@ -45,13 +47,17 @@ export interface IExecutionProps {
 export interface IExecutionState {
   showingDetails: boolean;
   showingParams: boolean;
-  collapseParamsArtifactsAfter: number;
   pipelinesUrl: string;
   viewState: IExecutionViewState;
   sortFilter: ISortFilter;
   restartDetails: IRestartDetails;
   runningTimeInMs: number;
 }
+
+export type IDisplayableParameters = Array<{
+  key: string;
+  value: any;
+}>;
 
 export class Execution extends React.Component<IExecutionProps, IExecutionState> {
   public static defaultProps: Partial<IExecutionProps> = {
@@ -61,15 +67,13 @@ export class Execution extends React.Component<IExecutionProps, IExecutionState>
 
   private stateChangeSuccessSubscription: Subscription;
   private runningTime: OrchestratedItemRunningTime;
+  private readonly pinnedDisplayableParameters: IDisplayableParameters;
+  private readonly displayableParameters: IDisplayableParameters;
 
   constructor(props: IExecutionProps) {
     super(props);
-    const { execution, standalone } = this.props;
-    const { trigger } = execution;
-    const { resolvedExpectedArtifacts } = trigger;
+    const { execution, standalone, pipelineConfig } = this.props;
     const { $stateParams } = ReactInjector;
-
-    const collapseParamsArtifactsAfter = 4;
 
     const initialViewState = {
       activeStageId: Number($stateParams.stage),
@@ -81,12 +85,12 @@ export class Execution extends React.Component<IExecutionProps, IExecutionState>
 
     const restartedStage = execution.stages.find(stage => stage.context.restartDetails !== undefined);
 
+    this.displayableParameters = this.getDisplayableParameters(execution);
+    this.pinnedDisplayableParameters = this.getPinnedParameters(this.displayableParameters, pipelineConfig);
+
     this.state = {
       showingDetails: this.invalidateShowingDetails(props),
-      showingParams:
-        standalone ||
-        Object.keys(trigger.parameters).length + resolvedExpectedArtifacts.length < collapseParamsArtifactsAfter,
-      collapseParamsArtifactsAfter: collapseParamsArtifactsAfter,
+      showingParams: standalone,
       pipelinesUrl: [SETTINGS.gateUrl, 'pipelines/'].join('/'),
       viewState: initialViewState,
       sortFilter: ExecutionState.filterModel.asFilterModel.sortFilter,
@@ -200,6 +204,37 @@ export class Execution extends React.Component<IExecutionProps, IExecutionState>
     });
   }
 
+  private getDisplayableParameters = memoize((execution: IExecution) => {
+    // these are internal parameters that are not useful to end users
+    const strategyExclusions = ['parentPipelineId', 'strategy', 'parentStageId', 'deploymentDetails', 'cloudProvider'];
+
+    let parameters: IDisplayableParameters;
+
+    if (execution.trigger && execution.trigger.parameters) {
+      parameters = Object.keys(execution.trigger.parameters)
+        .sort()
+        .filter(paramKey => (execution.isStrategy ? !strategyExclusions.includes(paramKey) : true))
+        .map((paramKey: string) => {
+          return { key: paramKey, value: JSON.stringify(execution.trigger.parameters[paramKey]) };
+        });
+    }
+
+    return parameters;
+  });
+
+  private getPinnedParameters = memoize((parameters: IDisplayableParameters, pipelineConfig: IPipeline) => {
+    const paramConfigIndexByName: { [key: string]: IParameter } = {};
+    pipelineConfig.parameterConfig.forEach(param => {
+      paramConfigIndexByName[param.name] = param;
+    });
+
+    return parameters.filter(param => {
+      return (
+        !paramConfigIndexByName[param.key] || paramConfigIndexByName[param.key].alwaysShowing // an old execution's parameter might be missing from the pipelineConfig.parameterConfig
+      );
+    });
+  });
+
   public componentDidMount(): void {
     const { execution } = this.props;
     this.runningTime = new OrchestratedItemRunningTime(execution, (time: number) =>
@@ -274,15 +309,7 @@ export class Execution extends React.Component<IExecutionProps, IExecutionState>
 
   public render() {
     const { application, execution, showAccountLabels, showDurations, standalone, title, cancelHelpText } = this.props;
-    const {
-      pipelinesUrl,
-      restartDetails,
-      showingDetails,
-      showingParams,
-      collapseParamsArtifactsAfter,
-      sortFilter,
-      viewState,
-    } = this.state;
+    const { pipelinesUrl, restartDetails, showingDetails, showingParams, sortFilter, viewState } = this.state;
     const { trigger } = execution;
     const { artifacts, resolvedExpectedArtifacts } = trigger;
 
@@ -416,15 +443,22 @@ export class Execution extends React.Component<IExecutionProps, IExecutionState>
           <div className="execution-parameters-button">
             <a className="clickable" onClick={this.toggleParams}>
               <span
-                className={`small glyphicon ${showingParams ? 'glyphicon-chevron-down' : 'glyphicon-chevron-right'}`}
+                className={`small glyphicon ${
+                  showingParams || this.displayableParameters.length === this.pinnedDisplayableParameters.length
+                    ? 'glyphicon-chevron-down'
+                    : 'glyphicon-chevron-right'
+                }`}
               />
-              Parameters/Artifacts ({parametersCount}/{`${resolvedExpectedArtifacts.length}`})
+              {showingParams || this.displayableParameters.length === this.pinnedDisplayableParameters.length
+                ? ''
+                : 'View All'}{' '}
+              Parameters/Artifacts ({parametersCount}/{`${this.displayableParameters.length}`})
             </a>
           </div>
           <ExecutionParameters
-            execution={execution}
-            showingParams={showingParams}
-            columnLayoutAfter={collapseParamsArtifactsAfter - resolvedExpectedArtifacts.length}
+            shouldShowAllParams={showingParams}
+            displayableParameters={this.displayableParameters}
+            pinnedDisplayableParameters={this.pinnedDisplayableParameters}
           />
 
           {SETTINGS.feature.artifacts && (
@@ -432,7 +466,6 @@ export class Execution extends React.Component<IExecutionProps, IExecutionState>
               artifacts={artifacts}
               resolvedExpectedArtifacts={resolvedExpectedArtifacts}
               showingExpandedArtifacts={showingParams}
-              columnLayoutAfter={collapseParamsArtifactsAfter - parametersCount}
             />
           )}
 

@@ -1,15 +1,14 @@
 import * as React from 'react';
-import memoize from 'memoize-one';
 
-import { IExecution } from 'core/domain';
+import { IDisplayableParameters } from 'core/pipeline';
 
 import './executionStatus.less';
 import './executionParameters.less';
 
 export interface IExecutionParametersProps {
-  execution: IExecution;
-  showingParams: boolean;
-  columnLayoutAfter: number;
+  shouldShowAllParams: boolean;
+  displayableParameters: IDisplayableParameters;
+  pinnedDisplayableParameters: IDisplayableParameters;
 }
 
 export class ExecutionParameters extends React.Component<IExecutionParametersProps> {
@@ -17,42 +16,27 @@ export class ExecutionParameters extends React.Component<IExecutionParametersPro
     super(props);
   }
 
-  private getDisplayableParameters = memoize((execution: IExecution) => {
-    // these are internal parameters that are not useful to end users
-    const strategyExclusions = ['parentPipelineId', 'strategy', 'parentStageId', 'deploymentDetails', 'cloudProvider'];
+  public render() {
+    const { shouldShowAllParams, displayableParameters, pinnedDisplayableParameters } = this.props;
 
-    let parameters: Array<{ key: string; value: any }>;
-
-    if (execution.trigger && execution.trigger.parameters) {
-      parameters = Object.keys(execution.trigger.parameters)
-        .sort()
-        .filter(paramKey => (execution.isStrategy ? !strategyExclusions.includes(paramKey) : true))
-        .map((paramKey: string) => {
-          return { key: paramKey, value: JSON.stringify(execution.trigger.parameters[paramKey]) };
-        });
+    let parameters = pinnedDisplayableParameters;
+    if (shouldShowAllParams) {
+      parameters = displayableParameters;
     }
 
-    return parameters;
-  });
-
-  public render() {
-    const { showingParams, columnLayoutAfter, execution } = this.props;
-
-    const parameters = this.getDisplayableParameters(execution);
-
-    if (!parameters.length || !showingParams) {
+    if (!parameters.length) {
       return null;
     }
 
-    let paramsSplitIntoColumns = [parameters];
-    if (parameters.length >= columnLayoutAfter) {
-      const halfWay = Math.ceil(parameters.length / 2);
-      paramsSplitIntoColumns = [parameters.slice(0, halfWay), parameters.slice(halfWay)];
-    }
+    const halfWay = Math.ceil(parameters.length / 2);
+    const paramsSplitIntoColumns = [parameters.slice(0, halfWay), parameters.slice(halfWay)];
 
     return (
       <div className="execution-parameters">
-        <h6 className="params-title">Parameters</h6>
+        <h6 className="params-title">
+          {shouldShowAllParams || pinnedDisplayableParameters.length === displayableParameters.length ? '' : 'Pinned'}{' '}
+          Parameters
+        </h6>
 
         <div className="execution-parameters-container">
           {paramsSplitIntoColumns.map((c, i) => (

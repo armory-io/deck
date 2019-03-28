@@ -19,9 +19,7 @@ describe('<ResolvedArtifactList/>', () => {
 
   it('renders null when null artifacts are passed in', function() {
     const artifacts: IArtifact[] = null;
-    component = shallow(
-      <ResolvedArtifactList artifacts={artifacts} columnLayoutAfter={10} showingExpandedArtifacts={true} />,
-    );
+    component = shallow(<ResolvedArtifactList artifacts={artifacts} showingExpandedArtifacts={true} />);
     expect(component.get(0)).toEqual(null);
   });
 
@@ -32,7 +30,6 @@ describe('<ResolvedArtifactList/>', () => {
       <ResolvedArtifactList
         artifacts={artifacts}
         resolvedExpectedArtifacts={resolvedExpectedArtifacts}
-        columnLayoutAfter={10}
         showingExpandedArtifacts={true}
       />,
     );
@@ -52,7 +49,6 @@ describe('<ResolvedArtifactList/>', () => {
       <ResolvedArtifactList
         artifacts={artifacts}
         resolvedExpectedArtifacts={resolvedExpectedArtifacts}
-        columnLayoutAfter={10}
         showingExpandedArtifacts={false}
       />,
     );
@@ -73,7 +69,6 @@ describe('<ResolvedArtifactList/>', () => {
       <ResolvedArtifactList
         artifacts={artifacts}
         resolvedExpectedArtifacts={resolvedExpectedArtifacts}
-        columnLayoutAfter={10}
         showingExpandedArtifacts={true}
       />,
     );
@@ -101,7 +96,6 @@ describe('<ResolvedArtifactList/>', () => {
       <ResolvedArtifactList
         artifacts={artifacts}
         resolvedExpectedArtifacts={resolvedExpectedArtifacts}
-        columnLayoutAfter={10}
         showingExpandedArtifacts={true}
       />,
     );
@@ -129,7 +123,6 @@ describe('<ResolvedArtifactList/>', () => {
       <ResolvedArtifactList
         artifacts={artifacts}
         resolvedExpectedArtifacts={resolvedExpectedArtifacts}
-        columnLayoutAfter={2}
         showingExpandedArtifacts={true}
       />,
     );
@@ -149,7 +142,6 @@ describe('<ResolvedArtifactList/>', () => {
       <ResolvedArtifactList
         artifacts={singleArtifact}
         resolvedExpectedArtifacts={resolvedExpectedArtifacts}
-        columnLayoutAfter={10}
         showingExpandedArtifacts={true}
       />,
     );
@@ -172,7 +164,6 @@ describe('<ResolvedArtifactList/>', () => {
       <ResolvedArtifactList
         artifacts={artifacts}
         resolvedExpectedArtifacts={resolvedExpectedArtifacts}
-        columnLayoutAfter={10}
         showingExpandedArtifacts={true}
       />,
     );
@@ -187,9 +178,7 @@ describe('<ResolvedArtifactList/>', () => {
         name: ARTIFACT_NAME,
       },
     ];
-    component = shallow(
-      <ResolvedArtifactList artifacts={artifacts} columnLayoutAfter={10} showingExpandedArtifacts={true} />,
-    );
+    component = shallow(<ResolvedArtifactList artifacts={artifacts} showingExpandedArtifacts={true} />);
     const li = component.find('.extraneous-artifacts');
     expect(li.text()).toMatch(/1.*artifact.*not.*consumed/);
   });
