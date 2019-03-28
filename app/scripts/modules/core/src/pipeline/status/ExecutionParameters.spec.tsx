@@ -6,6 +6,7 @@ import { REACT_MODULE } from 'core/reactShims';
 
 import { IExecutionParametersProps, ExecutionParameters } from './ExecutionParameters';
 import { IDisplayableParameters } from 'core/pipeline';
+import { IPipeline } from 'core/domain';
 
 describe('<ExecutionParameters/>', () => {
   let component: ShallowWrapper<IExecutionParametersProps>;
@@ -21,6 +22,7 @@ describe('<ExecutionParameters/>', () => {
         displayableParameters={parameters}
         pinnedDisplayableParameters={[]}
         shouldShowAllParams={false}
+        pipelineConfig={null}
       />,
     );
 
@@ -35,6 +37,26 @@ describe('<ExecutionParameters/>', () => {
         pinnedDisplayableParameters={parameters}
         displayableParameters={[]}
         shouldShowAllParams={false}
+        pipelineConfig={null}
+      />,
+    );
+
+    expect(component.find('.params-title').text()).toEqual('Pinned Parameters');
+    expect(component.find('.execution-parameters-column').length).toEqual(2);
+    expect(component.find('.parameter-key').length).toEqual(2);
+    expect(component.find('.parameter-value').length).toEqual(2);
+  });
+
+  it(`shows pinned parameters title when all parameters are pinned`, function() {
+    const parameters: IDisplayableParameters = [{ key: '1', value: 'a' }, { key: '2', value: 'b' }];
+    const pipelineConfig: IPipeline = { pinAllParameters: true };
+
+    component = shallow(
+      <ExecutionParameters
+        pinnedDisplayableParameters={[]}
+        displayableParameters={parameters}
+        shouldShowAllParams={false}
+        pipelineConfig={pipelineConfig}
       />,
     );
 
@@ -52,6 +74,7 @@ describe('<ExecutionParameters/>', () => {
         pinnedDisplayableParameters={parameters}
         displayableParameters={[]}
         shouldShowAllParams={true}
+        pipelineConfig={null}
       />,
     );
 
@@ -66,6 +89,7 @@ describe('<ExecutionParameters/>', () => {
         pinnedDisplayableParameters={[]}
         displayableParameters={parameters}
         shouldShowAllParams={true}
+        pipelineConfig={null}
       />,
     );
 

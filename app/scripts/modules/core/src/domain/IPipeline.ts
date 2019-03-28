@@ -28,6 +28,7 @@ export interface IPipeline {
     type: string;
   };
   type?: string;
+  pinAllParameters: boolean;
 }
 
 export interface IParameter {
@@ -35,7 +36,7 @@ export interface IParameter {
   description: string;
   default: string;
   hasOptions: boolean;
-  alwaysShowing: boolean;
+  pinned: boolean;
   options: IParameterOption[];
   condition?: IParameterCondition;
 }

@@ -86,7 +86,9 @@ export class Execution extends React.Component<IExecutionProps, IExecutionState>
     const restartedStage = execution.stages.find(stage => stage.context.restartDetails !== undefined);
 
     this.displayableParameters = this.getDisplayableParameters(execution);
-    this.pinnedDisplayableParameters = this.getPinnedParameters(this.displayableParameters, pipelineConfig);
+    if (pipelineConfig) {
+      this.pinnedDisplayableParameters = this.getPinnedParameters(this.displayableParameters, pipelineConfig);
+    }
 
     this.state = {
       showingDetails: this.invalidateShowingDetails(props),
@@ -230,7 +232,8 @@ export class Execution extends React.Component<IExecutionProps, IExecutionState>
 
     return parameters.filter(param => {
       return (
-        !paramConfigIndexByName[param.key] || paramConfigIndexByName[param.key].alwaysShowing // an old execution's parameter might be missing from the pipelineConfig.parameterConfig
+        pipelineConfig.pinAllParameters ||
+        (paramConfigIndexByName[param.key] && paramConfigIndexByName[param.key].pinned) // an old execution's parameter might be missing from the pipelineConfig.parameterConfig
       );
     });
   });
@@ -308,7 +311,16 @@ export class Execution extends React.Component<IExecutionProps, IExecutionState>
   };
 
   public render() {
-    const { application, execution, showAccountLabels, showDurations, standalone, title, cancelHelpText } = this.props;
+    const {
+      application,
+      execution,
+      showAccountLabels,
+      showDurations,
+      standalone,
+      title,
+      cancelHelpText,
+      pipelineConfig,
+    } = this.props;
     const { pipelinesUrl, restartDetails, showingDetails, showingParams, sortFilter, viewState } = this.state;
     const { trigger } = execution;
     const { artifacts, resolvedExpectedArtifacts } = trigger;
@@ -339,7 +351,11 @@ export class Execution extends React.Component<IExecutionProps, IExecutionState>
       'show-durations': showDurations,
     });
 
-    const parametersCount = Object.keys(trigger.parameters).length;
+    const parametersAndArtifactsExpanded =
+      showingParams ||
+      (this.displayableParameters.length === this.pinnedDisplayableParameters.length &&
+        !resolvedExpectedArtifacts.length);
+
     return (
       <div className={className} id={`execution-${execution.id}`}>
         <div className={`execution-overview group-by-${sortFilter.groupBy}`}>
@@ -444,21 +460,18 @@ export class Execution extends React.Component<IExecutionProps, IExecutionState>
             <a className="clickable" onClick={this.toggleParams}>
               <span
                 className={`small glyphicon ${
-                  showingParams || this.displayableParameters.length === this.pinnedDisplayableParameters.length
-                    ? 'glyphicon-chevron-down'
-                    : 'glyphicon-chevron-right'
+                  parametersAndArtifactsExpanded ? 'glyphicon-chevron-down' : 'glyphicon-chevron-right'
                 }`}
               />
-              {showingParams || this.displayableParameters.length === this.pinnedDisplayableParameters.length
-                ? ''
-                : 'View All'}{' '}
-              Parameters/Artifacts ({parametersCount}/{`${this.displayableParameters.length}`})
+              {parametersAndArtifactsExpanded ? '' : 'View All '}
+              Parameters/Artifacts ({this.displayableParameters.length}/{`${resolvedExpectedArtifacts.length}`})
             </a>
           </div>
           <ExecutionParameters
             shouldShowAllParams={showingParams}
             displayableParameters={this.displayableParameters}
             pinnedDisplayableParameters={this.pinnedDisplayableParameters}
+            pipelineConfig={pipelineConfig}
           />
 
           {SETTINGS.feature.artifacts && (
