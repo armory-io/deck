@@ -55,55 +55,6 @@ describe('<ResolvedArtifactList/>', () => {
     expect(component.get(0)).toEqual(null);
   });
 
-  it('renders a list when artifacts are passed in', function() {
-    const artifacts: IArtifact[] = [
-      {
-        id: 'abcd',
-        type: ARTIFACT_TYPE,
-        name: ARTIFACT_NAME,
-      },
-    ];
-
-    const resolvedExpectedArtifacts = artifacts.map(a => ({ boundArtifact: a } as IExpectedArtifact));
-    component = shallow(
-      <ResolvedArtifactList
-        artifacts={artifacts}
-        resolvedExpectedArtifacts={resolvedExpectedArtifacts}
-        showingExpandedArtifacts={true}
-      />,
-    );
-
-    expect(component.find('.artifact-list-column').length).toEqual(1);
-    expect(component.find(Artifact).length).toEqual(1);
-  });
-
-  it('renders one columns when columnLayoutAfter is set to something high', function() {
-    const artifacts: IArtifact[] = [
-      {
-        id: 'abcd',
-        type: ARTIFACT_TYPE,
-        name: ARTIFACT_NAME,
-      },
-      {
-        id: 'efgh',
-        type: ARTIFACT_TYPE,
-        name: ARTIFACT_NAME,
-      },
-    ];
-
-    const resolvedExpectedArtifacts = artifacts.map(a => ({ boundArtifact: a } as IExpectedArtifact));
-    component = shallow(
-      <ResolvedArtifactList
-        artifacts={artifacts}
-        resolvedExpectedArtifacts={resolvedExpectedArtifacts}
-        showingExpandedArtifacts={true}
-      />,
-    );
-
-    expect(component.find('.artifact-list-column').length).toEqual(1);
-    expect(component.find(Artifact).length).toEqual(2);
-  });
-
   it('renders two columns when columnLayoutAfter is set to 2', function() {
     const artifacts: IArtifact[] = [
       {
