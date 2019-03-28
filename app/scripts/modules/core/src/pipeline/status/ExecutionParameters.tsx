@@ -34,7 +34,7 @@ export class ExecutionParameters extends React.Component<IExecutionParametersPro
     return (
       <div className="execution-parameters">
         <h6 className="params-title">
-          {shouldShowAllParams || pinnedDisplayableParameters.length === displayableParameters.length ? '' : 'Pinned'}{' '}
+          {shouldShowAllParams || pinnedDisplayableParameters.length === displayableParameters.length ? '' : 'Pinned '}
           Parameters
         </h6>
 
