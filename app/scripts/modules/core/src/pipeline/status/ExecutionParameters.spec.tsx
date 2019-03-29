@@ -49,7 +49,19 @@ describe('<ExecutionParameters/>', () => {
 
   it(`shows pinned parameters title when all parameters are pinned`, function() {
     const parameters: IDisplayableParameters = [{ key: '1', value: 'a' }, { key: '2', value: 'b' }];
-    const pipelineConfig: IPipeline = { pinAllParameters: true };
+    const pipelineConfig: IPipeline = {
+      application: 'my-app',
+      id: '123-abc',
+      index: 0,
+      name: 'my-pipeline',
+      stages: [],
+      keepWaitingPipelines: false,
+      limitConcurrent: false,
+      strategy: false,
+      triggers: [],
+      parameterConfig: [],
+      pinAllParameters: true,
+    };
 
     component = shallow(
       <ExecutionParameters

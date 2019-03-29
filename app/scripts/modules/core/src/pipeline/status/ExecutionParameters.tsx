@@ -36,7 +36,9 @@ export class ExecutionParameters extends React.Component<IExecutionParametersPro
     return (
       <div className="execution-parameters">
         <h6 className="params-title">
-          {!shouldShowAllParams || (pipelineConfig && pipelineConfig.pinAllParameters) ? 'Pinned ' : ''}
+          {!shouldShowAllParams || (!shouldShowAllParams && pipelineConfig && pipelineConfig.pinAllParameters)
+            ? 'Pinned '
+            : ''}
           Parameters
         </h6>
 
