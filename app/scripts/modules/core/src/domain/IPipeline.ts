@@ -28,7 +28,7 @@ export interface IPipeline {
     type: string;
   };
   type?: string;
-  pinAllParameters: boolean;
+  pinAllParameters?: boolean;
 }
 
 export interface IParameter {
