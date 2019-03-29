@@ -22,7 +22,7 @@ export class ExecutionParameters extends React.Component<IExecutionParametersPro
     const { shouldShowAllParams, displayableParameters, pinnedDisplayableParameters, pipelineConfig } = this.props;
 
     let parameters = pinnedDisplayableParameters;
-    if (shouldShowAllParams) {
+    if (shouldShowAllParams || (pipelineConfig && pipelineConfig.pinAllParameters)) {
       parameters = displayableParameters;
     }
 
