@@ -2,6 +2,8 @@ import 'jquery'; // ensures jQuery is loaded before Angular so Angular does not 
 import { module } from 'angular';
 
 import { CORE_MODULE } from '@spinnaker/core';
+import { REGISTRY } from '@spinnaker/core';
+import { IStageConfigProps } from '@spinnaker/core';
 import { DOCKER_MODULE } from '@spinnaker/docker';
 import { AMAZON_MODULE } from '@spinnaker/amazon';
 import { APPENGINE_MODULE } from '@spinnaker/appengine';
@@ -30,4 +32,6 @@ module('netflix.spinnaker', [
   KUBERNETES_V2_MODULE,
   KAYENTA_MODULE,
   TITUS_MODULE,
+  REGISTRY,
+  IStageConfigProps,
 ]);
