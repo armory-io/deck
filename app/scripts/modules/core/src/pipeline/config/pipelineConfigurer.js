@@ -16,6 +16,10 @@ import { ExecutionsTransformer } from 'core/pipeline/service/ExecutionsTransform
 import { EditPipelineJsonModal } from 'core/pipeline/config/actions/pipelineJson/EditPipelineJsonModal';
 import { DeletePipelineModal } from 'core/pipeline/config/actions/delete/DeletePipelineModal';
 import { DisablePipelineModal } from 'core/pipeline/config/actions/disable/DisablePipelineModal';
+import { EnablePipelineModal } from 'core/pipeline/config/actions/enable/EnablePipelineModal';
+import { LockPipelineModal } from 'core/pipeline/config/actions/lock/LockPipelineModal';
+import { UnlockPipelineModal } from 'core/pipeline/config/actions/unlock/UnlockPipelineModal';
+import { RenamePipelineModal } from 'core/pipeline/config/actions/rename/RenamePipelineModal';
 import { ShowPipelineTemplateJsonModal } from 'core/pipeline/config/actions/templateJson/ShowPipelineTemplateJsonModal';
 import { PipelineTemplateV2Service } from 'core/pipeline';
 import { PipelineTemplateWriter } from 'core/pipeline/config/templates/PipelineTemplateWriter';
@@ -168,17 +172,9 @@ module.exports = angular
       };
 
       this.renamePipeline = () => {
-        $uibModal
-          .open({
-            templateUrl: require('./actions/rename/renamePipelineModal.html'),
-            controller: 'RenamePipelineModalCtrl',
-            controllerAs: 'renamePipelineModalCtrl',
-            resolve: {
-              pipeline: () => $scope.pipeline,
-              application: () => $scope.application,
-            },
-          })
-          .result.then(() => {
+        ReactModal.show(RenamePipelineModal, { pipeline: $scope.pipeline, application: $scope.application })
+          .then(pipelineName => {
+            $scope.pipeline.name = pipelineName;
             setOriginal($scope.pipeline);
             markDirty();
           })
@@ -197,15 +193,8 @@ module.exports = angular
 
       // Enabling a pipeline simply toggles the disabled flag - it does not save any pending changes
       this.enablePipeline = () => {
-        $uibModal
-          .open({
-            templateUrl: require('./actions/enable/enablePipelineModal.html'),
-            controller: 'EnablePipelineModalCtrl as ctrl',
-            resolve: {
-              pipeline: () => getOriginal(),
-            },
-          })
-          .result.then(() => disableToggled(false))
+        ReactModal.show(EnablePipelineModal, { pipeline: getOriginal() })
+          .then(() => disableToggled(false))
           .catch(() => {});
       };
 
@@ -223,7 +212,7 @@ module.exports = angular
 
       // Disabling a pipeline also just toggles the disabled flag - it does not save any pending changes
       this.disablePipeline = () => {
-        ReactModal.show(DisablePipelineModal, { pipeline: $scope.pipeline })
+        ReactModal.show(DisablePipelineModal, { pipeline: getOriginal() })
           .then(() => disableToggled(true))
           .catch(() => {});
       };
@@ -237,28 +226,17 @@ module.exports = angular
 
       // Locking a pipeline persists any pending changes
       this.lockPipeline = () => {
-        $uibModal
-          .open({
-            templateUrl: require('./actions/lock/lockPipelineModal.html'),
-            controller: 'LockPipelineModalCtrl as ctrl',
-            resolve: {
-              pipeline: () => $scope.pipeline,
-            },
+        ReactModal.show(LockPipelineModal, { pipeline: $scope.pipeline })
+          .then(pipeline => {
+            $scope.pipeline.locked = pipeline.locked;
+            setOriginal($scope.pipeline);
           })
-          .result.then(() => setOriginal($scope.pipeline))
           .catch(() => {});
       };
 
       this.unlockPipeline = () => {
-        $uibModal
-          .open({
-            templateUrl: require('./actions/unlock/unlockPipelineModal.html'),
-            controller: 'unlockPipelineModalCtrl as ctrl',
-            resolve: {
-              pipeline: () => $scope.pipeline,
-            },
-          })
-          .result.then(function() {
+        ReactModal.show(UnlockPipelineModal, { pipeline: $scope.pipeline })
+          .then(() => {
             delete $scope.pipeline.locked;
             setOriginal($scope.pipeline);
           })
