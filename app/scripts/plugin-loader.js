@@ -1,7 +1,8 @@
 import { Registry } from '@spinnaker/core';
 
-// This method appends the plugin script location to the bottom of
-// the page to load the plugin
+// Appends plugin resources to the bottom of the page via a script
+// tag. This makes it so the plugins start loading after the Spinnaker
+// application is loaded.
 function loadPluginScript(plugin) {
   return new Promise((resolve, reject) => {
     var scriptTag = document.createElement('script');
@@ -14,10 +15,13 @@ function loadPluginScript(plugin) {
 }
 
 // This method grabs all plugins that are defined in Spinnaker settings
-// and then loops through all of them. It then calls the function above to
-// appends a script tag to the page from where the plugin location and then
-// initializes the plugin by passing in the registry for plugins to register
-// themselves as stages
+// and will call their initialize method and append the script location
+// to the bottom of the page. The initialize function is based on the
+// interface defined in the plugins module. The Registry is passed into
+// the initialize method so the plugin can register itself as a stage.
+// This is done by calling window.spinnakerSettings.onPluginLoaded and
+// the plugin developer passes in their plugin object that contains
+// the initialize method.
 export function initPlugins() {
   const plugins = window.spinnakerSettings.plugins;
   window.spinnakerSettings.onPluginLoaded = plugin => plugin.initialize(Registry);
