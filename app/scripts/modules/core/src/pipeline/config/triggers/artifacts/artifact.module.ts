@@ -6,11 +6,13 @@ import { DOCKER_ARTIFACT } from './docker/docker.artifact';
 import { DEFAULT_DOCKER_ARTIFACT } from './docker/defaultDocker.artifact';
 import { DEFAULT_GCS_ARTIFACT } from './gcs/defaultGcs.artifact';
 import { DEFAULT_GITHUB_ARTIFACT } from './github/defaultGithub.artifact';
+import { DEFAULT_GITREPO_ARTIFACT } from './gitrepo/defaultGitRepo.artifact';
 import { DEFAULT_GITLAB_ARTIFACT } from './gitlab/defaultGitlab.artifact';
 import { DEFAULT_BITBUCKET_ARTIFACT } from './bitbucket/defaultBitbucket.artifact';
 import { DEFAULT_HTTP_ARTIFACT } from './http/defaultHttp.artifact';
 import { ARTIFACT } from './artifact.component';
 import { GITHUB_ARTIFACT } from 'core/pipeline/config/triggers/artifacts/github/github.artifact';
+import { GITREPO_ARTIFACT } from 'core/pipeline/config/triggers/artifacts/gitrepo/gitrepo.artifact';
 import { GITLAB_ARTIFACT } from 'core/pipeline/config/triggers/artifacts/gitlab/gitlab.artifact';
 import { HELM_ARTIFACT } from 'core/pipeline/config/triggers/artifacts/helm/helm.artifact';
 import { BITBUCKET_ARTIFACT } from 'core/pipeline/config/triggers/artifacts/bitbucket/bitbucket.artifact';
@@ -30,6 +32,7 @@ module(ARTIFACT_MODULE, [
   CUSTOM_ARTIFACT,
   GCS_ARTIFACT,
   GITHUB_ARTIFACT,
+  GITREPO_ARTIFACT,
   GITLAB_ARTIFACT,
   HELM_ARTIFACT,
   BITBUCKET_ARTIFACT,
@@ -43,6 +46,7 @@ module(ARTIFACT_MODULE, [
   DEFAULT_DOCKER_ARTIFACT,
   DEFAULT_GCS_ARTIFACT,
   DEFAULT_GITHUB_ARTIFACT,
+  DEFAULT_GITREPO_ARTIFACT,
   DEFAULT_GITLAB_ARTIFACT,
   DEFAULT_BITBUCKET_ARTIFACT,
   DEFAULT_BASE64_ARTIFACT,

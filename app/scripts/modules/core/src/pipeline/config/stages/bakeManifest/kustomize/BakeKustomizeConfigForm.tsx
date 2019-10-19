@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { IFormikStageConfigInjectedProps } from 'core/pipeline';
-import { StageArtifactSelectorDelegate } from 'core/artifact';
+import { StageArtifactSelectorDelegate, ArtifactTypePatterns, excludeAllTypesExcept } from 'core/artifact';
 import { IArtifact, IPipeline } from 'core/domain';
 
 interface IBakeKustomizeConfigFormProps {
@@ -27,10 +27,10 @@ export class BakeKustomizeConfigForm extends React.Component<
     return (
       <div className="form-horizontal clearfix">
         <div className="container-fluid form-horizontal">
-          <h4>Kustomize File</h4>
+          <h4>Git Repository</h4>
           <StageArtifactSelectorDelegate
             artifact={this.getInputArtifact().artifact}
-            excludedArtifactTypePatterns={[]}
+            excludedArtifactTypePatterns={excludeAllTypesExcept(ArtifactTypePatterns.GIT_REPO)}
             expectedArtifactId={this.getInputArtifact().id}
             helpKey="pipeline.config.bake.manifest.expectedArtifact"
             label="Expected Artifact"
