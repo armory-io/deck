@@ -4,19 +4,19 @@ import { ArtifactTypePatterns } from 'core/artifact';
 import { IArtifact } from 'core/domain/IArtifact';
 import { Registry } from 'core/registry';
 
-export const DEFAULT_GITREPO_ARTIFACT = 'spinnaker.core.pipeline.trigger.artifact.defaultGithub';
+export const DEFAULT_GITREPO_ARTIFACT = 'spinnaker.core.pipeline.trigger.artifact.defaultGitrepo';
 module(DEFAULT_GITREPO_ARTIFACT, []).config(() => {
   Registry.pipeline.mergeArtifactKind({
     label: 'GitHub',
     typePattern: ArtifactTypePatterns.GITLAB_FILE,
-    type: 'github/file',
-    description: 'A file stored in git, hosted by GitHub.',
-    key: 'default.github',
+    type: 'git/repo',
+    description: 'A git repository hosted by GitHub.',
+    key: 'default.gitrepo',
     isDefault: true,
     isMatch: false,
     controller: function(artifact: IArtifact) {
       this.artifact = artifact;
-      this.artifact.type = 'github/file';
+      this.artifact.type = 'git/repo';
       const pathRegex = new RegExp('/repos/[^/]*/[^/]*/contents/(.*)$');
 
       this.onReferenceChange = () => {
@@ -32,7 +32,7 @@ module(DEFAULT_GITREPO_ARTIFACT, []).config(() => {
   <div class="form-group row">
     <label class="col-md-3 sm-label-right">
       Content URL
-      <help-field key="pipeline.config.expectedArtifact.defaultGithub.reference"></help-field>
+      <help-field key="pipeline.config.expectedArtifact.defaultGitrepo.reference"></help-field>
     </label>
     <div class="col-md-8">
       <input type="text"

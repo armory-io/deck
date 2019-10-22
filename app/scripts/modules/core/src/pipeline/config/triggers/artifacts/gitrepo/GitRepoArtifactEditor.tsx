@@ -14,7 +14,7 @@ const TYPE = 'git/repo';
 export const GitRepoMatch: IArtifactKindConfig = {
   label: 'GitRepo',
   description: 'A git repository hosted by GitHub.',
-  key: 'git/repo',
+  key: 'gitrepo',
   typePattern: ArtifactTypePatterns.GIT_REPO,
   type: TYPE,
   isDefault: false,
@@ -24,7 +24,7 @@ export const GitRepoMatch: IArtifactKindConfig = {
     TYPE,
     'File path',
     'manifests/frontend.yaml',
-    'pipeline.config.expectedArtifact.git.name',
+    'pipeline.config.expectedArtifact.gitrepo.name',
   ),
 };
 
@@ -32,8 +32,8 @@ export const GitRepoDefault: IArtifactKindConfig = {
   label: 'GitHub',
   typePattern: ArtifactTypePatterns.GITHUB_FILE,
   type: TYPE,
-  description: 'A file stored in git, hosted by GitHub.',
-  key: 'default.github',
+  description: 'A git repository hosted by GitHub.',
+  key: 'default.gitrepo',
   isDefault: true,
   isMatch: false,
   editCmp: class extends ArtifactEditor {
