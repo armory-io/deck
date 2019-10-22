@@ -23,7 +23,7 @@ module(GITREPO_ARTIFACT, []).config(() => {
 <div class="col-md-12">
   <div class="form-group row">
     <label class="col-md-2 sm-label-right">
-      File path
+      File path alsk
       <help-field key="pipeline.config.expectedArtifact.gitrepo.name"></help-field>
     </label>
     <div class="col-md-8">
