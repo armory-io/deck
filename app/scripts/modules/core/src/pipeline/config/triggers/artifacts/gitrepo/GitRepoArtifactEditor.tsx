@@ -29,8 +29,8 @@ export const GitRepoMatch: IArtifactKindConfig = {
 };
 
 export const GitRepoDefault: IArtifactKindConfig = {
-  label: 'GitHub',
-  typePattern: ArtifactTypePatterns.GITHUB_FILE,
+  label: 'GitRepo',
+  typePattern: ArtifactTypePatterns.GIT_REPO,
   type: TYPE,
   description: 'A git repository hosted by GitHub.',
   key: 'default.gitrepo',

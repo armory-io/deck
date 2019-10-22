@@ -9,7 +9,7 @@ module(GITREPO_ARTIFACT, []).config(() => {
   Registry.pipeline.mergeArtifactKind({
     label: 'GitRepo',
     description: 'A git repository hosted by GitHub.',
-    key: 'git/repo',
+    key: 'gitrepo',
     typePattern: ArtifactTypePatterns.GIT_REPO,
     type: 'git/repo',
     isDefault: false,

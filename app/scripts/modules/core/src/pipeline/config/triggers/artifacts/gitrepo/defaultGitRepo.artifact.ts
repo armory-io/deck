@@ -45,7 +45,7 @@ module(DEFAULT_GITREPO_ARTIFACT, []).config(() => {
   <div class="form-group row">
     <label class="col-md-3 sm-label-right">
       Commit/Branch
-      <help-field key="pipeline.config.expectedArtifact.defaultGithub.version"></help-field>
+      <help-field key="pipeline.config.expectedArtifact.defaultGitrepo.version"></help-field>
     </label>
     <div class="col-md-3">
       <input type="text"
