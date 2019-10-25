@@ -1,8 +1,10 @@
 import * as React from 'react';
 
-import { IFormikStageConfigInjectedProps } from 'core/pipeline';
+import { IFormikStageConfigInjectedProps, StageConfigField } from 'core/pipeline';
 import { StageArtifactSelectorDelegate, ArtifactTypePatterns, excludeAllTypesExcept } from 'core/artifact';
 import { IArtifact, IPipeline } from 'core/domain';
+import { SpelText } from '../../../../../widgets';
+import { TextInput } from '../../../../../presentation/forms/inputs';
 
 interface IBakeKustomizeConfigFormProps {
   updatePipeline: (pipeline: IPipeline) => void;
@@ -27,12 +29,12 @@ export class BakeKustomizeConfigForm extends React.Component<
     return (
       <div className="form-horizontal clearfix">
         <div className="container-fluid form-horizontal">
-          <h4>Git Repository</h4>
+          <h4>Kustomize Options</h4>
           <StageArtifactSelectorDelegate
             artifact={this.getInputArtifact().artifact}
             excludedArtifactTypePatterns={excludeAllTypesExcept(ArtifactTypePatterns.GIT_REPO)}
             expectedArtifactId={this.getInputArtifact().id}
-            helpKey="pipeline.config.bake.manifest.expectedArtifact"
+            helpKey="pipeline.config.bake.manifest.kustomize.expectedArtifact"
             label="Expected Artifact"
             pipeline={this.props.pipeline}
             selectedArtifactAccount={this.getInputArtifact().account}
@@ -56,6 +58,14 @@ export class BakeKustomizeConfigForm extends React.Component<
               this.props.formik.setFieldValue('inputArtifact.artifact', null);
             }}
           />
+          <StageConfigField label={'Kustomize File'}>
+            <TextInput
+              onChange={(e: React.ChangeEvent<any>) => {
+                this.props.formik.setFieldValue('kustomizeFilePath', e.target.value);
+              }}
+              value={stage.kustomizeFilePath}
+            />
+          </StageConfigField>
         </div>
       </div>
     );
