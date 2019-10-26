@@ -8,7 +8,7 @@ export const GITREPO_ARTIFACT = 'spinnaker.core.pipeline.trigger.gitrepo.artifac
 module(GITREPO_ARTIFACT, []).config(() => {
   Registry.pipeline.mergeArtifactKind({
     label: 'GitRepo',
-    description: 'A git repository hosted by GitHub.',
+    description: 'A Git repository.',
     key: 'gitrepo',
     typePattern: ArtifactTypePatterns.GIT_REPO,
     type: 'git/repo',

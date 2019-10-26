@@ -258,9 +258,20 @@ const helpContents: { [key: string]: string } = {
   'pipeline.config.bake.manifest.expectedArtifact': '<p>This is the template you want to render.</p>',
   'pipeline.config.bake.manifest.overrideExpressionEvaluation':
     '<p>Explicitly evaluate SpEL expressions in overrides just prior to manifest baking. Can be paired with the "Skip SpEL evaluation" option in the Deploy Manifest stage when baking a third-party manifest artifact with expressions not meant for Spinnaker to evaluate as SpEL.</p>',
+  'pipeline.config.bake.manifest.templateRenderer': '<p>This is the engine used for rendering your manifest.</p>',
   'pipeline.config.bake.manifest.helm.rawOverrides':
     'Use <i>--set</i> instead of <i>--set-string</i> when injecting override values. Values injected using <i>--set</i> will be converted to primitive types by Helm.',
   'pipeline.config.bake.manifest.kustomize.expectedArtifact': '<p>This is the template you want to render.</p>',
+  'pipeline.config.bake.manifest.kustomize.filePath': `
+    <p>This is the relative path to the kustomization.yaml file within your Git repo.</p>
+    <p>i.e.: <b>examples/wordpress/mysql/kustomization.yaml</b></p>`,
+  'pipeline.config.bake.manifest.gitrepo.url': '<p>The git/repo account you want to use.</p>',
+  'pipeline.config.bake.manifest.gitrepo.branch': '<p>The branch of the repository you want to use.</p>',
+  'pipeline.config.bake.manifest.gitrepo.checkoutSubpath':
+    '<p>Check this if you want to specify a subpath; doing so will reduce the size of the generated artifact.</p>',
+  'pipeline.config.bake.manifest.gitrepo.subpath': `
+    <p>The subpath within the Git repository you desire to checkout.</p>
+    <p>i.e.: <b>examples/wordpress/mysql/</b></p>`,
   'pipeline.config.haltPipelineOnFailure':
     'Immediately halts execution of all running stages and fails the entire execution.',
   'pipeline.config.haltBranchOnFailure':

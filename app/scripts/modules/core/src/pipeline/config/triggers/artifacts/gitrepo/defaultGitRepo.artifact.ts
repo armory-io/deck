@@ -10,7 +10,7 @@ module(DEFAULT_GITREPO_ARTIFACT, []).config(() => {
     label: 'GitHub',
     typePattern: ArtifactTypePatterns.GITLAB_FILE,
     type: 'git/repo',
-    description: 'A git repository hosted by GitHub.',
+    description: 'A Git repository.',
     key: 'default.gitrepo',
     isDefault: true,
     isMatch: false,

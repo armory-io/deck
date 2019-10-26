@@ -52,7 +52,7 @@ class GitRepoArtifactEditor extends React.Component<IArtifactEditorProps, IGitRe
 
     return (
       <>
-        <StageConfigField label="URL">
+        <StageConfigField label="URL" helpKey="pipeline.config.bake.manifest.gitrepo.url">
           <SpelText
             placeholder="https or ssh to your git repo"
             value={artifact.reference}
@@ -61,7 +61,7 @@ class GitRepoArtifactEditor extends React.Component<IArtifactEditorProps, IGitRe
             docLink={true}
           />
         </StageConfigField>
-        <StageConfigField label="Branch">
+        <StageConfigField label="Branch" helpKey="pipeline.config.bake.manifest.gitrepo.branch">
           <SpelText
             placeholder="master"
             value={artifact.version}
@@ -70,11 +70,11 @@ class GitRepoArtifactEditor extends React.Component<IArtifactEditorProps, IGitRe
             docLink={true}
           />
         </StageConfigField>
-        <StageConfigField label="Checkout subpath">
+        <StageConfigField label="Checkout subpath" helpKey="pipeline.config.bake.manifest.gitrepo.checkoutSubpath">
           <CheckboxInput checked={this.state.includesSubPath} onChange={this.onIncludesSubPathChange} />
         </StageConfigField>
         {this.state.includesSubPath && (
-          <StageConfigField label="Subpath">
+          <StageConfigField label="Subpath" helpKey="pipeline.config.bake.manifest.gitrepo.subpath">
             <SpelText
               placeholder="path/to/subdirectory"
               value={get(artifact, 'metadata.subPath', '')}
@@ -91,27 +91,20 @@ class GitRepoArtifactEditor extends React.Component<IArtifactEditorProps, IGitRe
 
 export const GitRepoMatch: IArtifactKindConfig = {
   label: 'GitRepo',
-  description: 'A git repository hosted by GitHub.',
+  description: 'A Git repository.',
   key: 'gitrepo',
   typePattern: ArtifactTypePatterns.GIT_REPO,
   type: TYPE,
   isDefault: false,
   isMatch: true,
   editCmp: GitRepoArtifactEditor,
-  // editCmp: singleFieldArtifactEditor(
-  //   'name',
-  //   TYPE,
-  //   'File path asdfs',
-  //   'manifests/frontend.yaml',
-  //   'pipeline.config.expectedArtifact.gitrepo.name',
-  // ),
 };
 
 export const GitRepoDefault: IArtifactKindConfig = {
   label: 'GitRepo',
   typePattern: ArtifactTypePatterns.GIT_REPO,
   type: TYPE,
-  description: 'A git repository hosted by GitHub.',
+  description: 'A Git repository.',
   key: 'default.gitrepo',
   isDefault: true,
   isMatch: false,
