@@ -7,8 +7,8 @@ import { Registry } from 'core/registry';
 export const DEFAULT_GITREPO_ARTIFACT = 'spinnaker.core.pipeline.trigger.artifact.defaultGitrepo';
 module(DEFAULT_GITREPO_ARTIFACT, []).config(() => {
   Registry.pipeline.mergeArtifactKind({
-    label: 'GitHub',
-    typePattern: ArtifactTypePatterns.GITLAB_FILE,
+    label: 'GitRepo',
+    typePattern: ArtifactTypePatterns.GIT_REPO,
     type: 'git/repo',
     description: 'A Git repository.',
     key: 'default.gitrepo',
@@ -36,7 +36,7 @@ module(DEFAULT_GITREPO_ARTIFACT, []).config(() => {
     </label>
     <div class="col-md-8">
       <input type="text"
-             placeholder="https://api.github.com/repos/$ORG/$REPO/contents/$FILEPATH"
+             placeholder="https or ssh to your git repo"
              class="form-control input-sm"
              ng-change="ctrl.onReferenceChange()"
              ng-model="ctrl.artifact.reference"/>
