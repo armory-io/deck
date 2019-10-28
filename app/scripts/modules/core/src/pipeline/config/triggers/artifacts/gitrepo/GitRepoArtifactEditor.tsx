@@ -51,7 +51,7 @@ class GitRepoArtifactEditor extends React.Component<IArtifactEditorProps, IGitRe
 
     return (
       <>
-        <StageConfigField label="URL" helpKey="pipeline.config.bake.manifest.gitrepo.url">
+        <StageConfigField label="URL" helpKey="pipeline.config.expectedArtifact.gitrepo.url">
           <SpelText
             placeholder="https or ssh to your git repo"
             value={artifact.reference}
@@ -60,7 +60,7 @@ class GitRepoArtifactEditor extends React.Component<IArtifactEditorProps, IGitRe
             docLink={true}
           />
         </StageConfigField>
-        <StageConfigField label="Branch" helpKey="pipeline.config.bake.manifest.gitrepo.branch">
+        <StageConfigField label="Branch" helpKey="pipeline.config.expectedArtifact.gitrepo.branch">
           <SpelText
             placeholder="master"
             value={artifact.version}
@@ -69,11 +69,11 @@ class GitRepoArtifactEditor extends React.Component<IArtifactEditorProps, IGitRe
             docLink={true}
           />
         </StageConfigField>
-        <StageConfigField label="Checkout subpath" helpKey="pipeline.config.bake.manifest.gitrepo.checkoutSubpath">
+        <StageConfigField label="Checkout subpath" helpKey="pipeline.config.expectedArtifact.gitrepo.checkoutSubpath">
           <CheckboxInput checked={this.state.includesSubPath} onChange={this.onIncludesSubPathChange} />
         </StageConfigField>
         {this.state.includesSubPath && (
-          <StageConfigField label="Subpath" helpKey="pipeline.config.bake.manifest.gitrepo.subpath">
+          <StageConfigField label="Subpath" helpKey="pipeline.config.expectedArtifact.gitrepo.subpath">
             <SpelText
               placeholder="path/to/subdirectory"
               value={get(artifact, 'metadata.subPath', '')}

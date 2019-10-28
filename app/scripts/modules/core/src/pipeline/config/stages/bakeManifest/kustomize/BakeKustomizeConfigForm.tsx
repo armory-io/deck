@@ -33,7 +33,7 @@ export class BakeKustomizeConfigForm extends React.Component<
             artifact={this.getInputArtifact().artifact}
             excludedArtifactTypePatterns={excludeAllTypesExcept(ArtifactTypePatterns.GIT_REPO)}
             expectedArtifactId={this.getInputArtifact().id}
-            helpKey="pipeline.config.bake.manifest.kustomize.expectedArtifact"
+            helpKey="pipeline.config.bake.manifest.expectedArtifact"
             label="Expected Artifact"
             pipeline={this.props.pipeline}
             selectedArtifactAccount={this.getInputArtifact().account}
