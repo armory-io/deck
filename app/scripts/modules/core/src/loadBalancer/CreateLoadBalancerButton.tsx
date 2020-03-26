@@ -6,7 +6,6 @@ import { ILoadBalancer } from 'core/domain';
 import { ILoadBalancerUpsertCommand } from './loadBalancer.write.service';
 import { ModalInjector, ReactInjector } from 'core/reactShims';
 import { IModalComponentProps, Tooltip } from 'core/presentation';
-
 export interface ILoadBalancerModalProps extends IModalComponentProps {
   className?: string;
   dialogClassName?: string;
@@ -64,20 +63,7 @@ export class CreateLoadBalancerButton extends React.Component<ICreateLoadBalance
 
   public render() {
     const { app } = this.props;
-    let isDisabled = true;
-    const BreakException = {};
-    try {
-      app.attributes.cloudProviders.forEach((element: any) => {
-        const provider = CloudProviderRegistry.getValue(element, 'loadBalancer');
-        if (provider.infra) {
-          isDisabled = false;
-          throw BreakException;
-        }
-      });
-    } catch (e) {
-      if (e !== BreakException) throw e;
-    }
-    if (!isDisabled) {
+    if (!ProviderSelectionService.isDisabled(app,'loadBalancer')) {
       return (
         <div>
           <button className="btn btn-sm btn-default" onClick={this.createLoadBalancer}>
