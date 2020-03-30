@@ -64,9 +64,7 @@ describe('ProviderSelectionService: API', () => {
 
     config = {
       name: 'testProvider',
-      securityGroup: {
-        infra: true,
-      },
+      securityGroup: {},
     };
   });
 
@@ -135,8 +133,8 @@ describe('ProviderSelectionService: API', () => {
     let provider = '';
     hasValue = true;
     accounts = [fakeAccount('aws'), fakeAccount('titus'), fakeAccount('testProvider')];
-    CloudProviderRegistry.registerProvider('aws', { securityGroup: { infra: true } } as any);
-    CloudProviderRegistry.registerProvider('titus', { securityGroup: { infra: true, useProvider: 'aws' } } as any);
+    CloudProviderRegistry.registerProvider('aws', { securityGroup: {} } as any);
+    CloudProviderRegistry.registerProvider('titus', { securityGroup: { useProvider: 'aws' } } as any);
     CloudProviderRegistry.registerProvider('testProvider', config);
 
     ProviderSelectionService.selectProvider(application, 'securityGroup').then(_provider => {
@@ -178,5 +176,18 @@ describe('ProviderSelectionService: API', () => {
     });
     $scope.$digest();
     expect(provider).toBe('titus');
+  });
+
+  it('Kubernetes "Create Cluster" button should be disabled when adHocInfraWrites = false', () => {
+    application.attributes = { cloudProviders: ['kubernetes'] };
+    let disabled = false;
+    hasValue = true;
+    const k8s = fakeAccount('kubernetes');
+    k8s.type = 'kubernetes';
+    accounts = [k8s];
+    CloudProviderRegistry.registerProvider('kubernetes', { securityGroup: { infra: true } } as any);
+    disabled = ProviderSelectionService.isDisabled(application, 'securityGroup');
+    $scope.$digest();
+    expect(disabled).toBeTruthy();
   });
 });

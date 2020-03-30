@@ -171,6 +171,7 @@ export class SecurityGroupReader {
     const securityGroups: ISecurityGroup[] = [];
     nameBasedSecurityGroups.forEach((securityGroup: ISecurityGroup) => {
       try {
+        securityGroup.provider = 'kubernetes';
         const match: ISecurityGroup = this.resolve(application['securityGroupsIndex'], securityGroup, securityGroup.id);
         SecurityGroupReader.attachUsageFields(match);
         securityGroups.push(match);
