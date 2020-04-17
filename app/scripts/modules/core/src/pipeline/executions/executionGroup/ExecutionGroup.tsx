@@ -232,6 +232,7 @@ export class ExecutionGroup extends React.PureComponent<IExecutionGroupProps, IE
   private renderExecutions() {
     const { pipelineConfig } = this.state;
     const { executions } = this.props.group;
+    const isConfigurable = !pipelineConfig || PipelineTemplateV2Service.isConfigurable(pipelineConfig);
     return (
       <>
         {executions.map(execution => (
@@ -240,7 +241,7 @@ export class ExecutionGroup extends React.PureComponent<IExecutionGroupProps, IE
             execution={execution}
             pipelineConfig={pipelineConfig}
             application={this.props.application}
-            onRerun={pipelineConfig ? this.rerunExecutionClicked : undefined}
+            onRerun={pipelineConfig && isConfigurable ? this.rerunExecutionClicked : undefined}
           />
         ))}
       </>
@@ -253,6 +254,7 @@ export class ExecutionGroup extends React.PureComponent<IExecutionGroupProps, IE
     const pipelineDisabled = pipelineConfig && pipelineConfig.disabled;
     const pipelineDescription = pipelineConfig && pipelineConfig.description;
     const hasRunningExecutions = group.runningExecutions && group.runningExecutions.length > 0;
+    const isConfigurable = !pipelineConfig || PipelineTemplateV2Service.isConfigurable(pipelineConfig);
 
     const deploymentAccountLabels = without(
       this.state.deploymentAccounts || [],
@@ -332,14 +334,22 @@ export class ExecutionGroup extends React.PureComponent<IExecutionGroupProps, IE
                   <div className="text-right execution-group-actions">
                     {pipelineConfig && <TriggersTag pipeline={pipelineConfig} />}
                     {pipelineConfig && <NextRunTag pipeline={pipelineConfig} />}
-                    <ExecutionAction handleClick={this.handleConfigureClicked}>
+                    <ExecutionAction
+                      handleClick={this.handleConfigureClicked}
+                      disabled={!isConfigurable}
+                      tooltipText={!isConfigurable ? PipelineTemplateV2Service.getUnsupportedCopy('Configuration') : ''}
+                    >
                       <span className="glyphicon glyphicon-cog" />
                       {' Configure'}
                     </ExecutionAction>
                     {pipelineConfig && (
                       <ExecutionAction
+                        disabled={!isConfigurable}
                         handleClick={this.handleTriggerClicked}
                         style={{ visibility: pipelineDisabled ? 'hidden' : 'visible' }}
+                        tooltipText={
+                          !isConfigurable ? PipelineTemplateV2Service.getUnsupportedCopy('Manual Execution') : ''
+                        }
                       >
                         {triggeringExecution ? (
                           <div className="horizontal middle inline-spinner">

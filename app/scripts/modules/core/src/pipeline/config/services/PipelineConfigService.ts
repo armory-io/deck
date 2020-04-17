@@ -8,6 +8,7 @@ import { PipelineTemplateV2Service } from 'core/pipeline';
 import { ViewStateCache } from 'core/cache';
 import { IStage } from 'core/domain/IStage';
 import { IPipeline } from 'core/domain/IPipeline';
+import { SETTINGS } from 'core/config';
 
 export interface ITriggerPipelineResponse {
   eventId: string;
@@ -68,7 +69,7 @@ export class PipelineConfigService {
         }
       });
     }
-    if (PipelineTemplateV2Service.isV2PipelineConfig(pipeline)) {
+    if (SETTINGS.feature.managedPipelineTemplatesV2UI && PipelineTemplateV2Service.isV2PipelineConfig(pipeline)) {
       pipeline = PipelineTemplateV2Service.filterInheritedConfig(pipeline) as IPipeline;
     }
 
