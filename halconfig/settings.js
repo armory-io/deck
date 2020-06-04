@@ -24,6 +24,7 @@ var gceStatefulMigsEnabled = '{%features.gceStatefulMigsEnabled%}' === 'true';
 var gremlinEnabled = '{%features.gremlin%}' === 'true';
 var iapRefresherEnabled = '{%features.iapRefresherEnabled%}' === 'true';
 var infrastructureStagesEnabled = '{%features.infrastructureStages%}' === 'true';
+var managedPipelineTemplatesV2UIEnabled = '{%features.managedPipelineTemplatesV2UI%}' === 'true';
 var maxPipelineAgeDays = '{%maxPipelineAgeDays%}';
 var mineCanaryEnabled = '{%features.mineCanary%}' === 'true';
 var notificationsEnabled = '{%notifications.enabled%}' === 'true';
@@ -170,6 +171,7 @@ window.spinnakerSettings = {
     gremlinEnabled: gremlinEnabled,
     iapRefresherEnabled: iapRefresherEnabled,
     infrastructureStages: infrastructureStagesEnabled,
+    managedPipelineTemplatesV2UI: managedPipelineTemplatesV2UIEnabled,
     notifications: notificationsEnabled,
     pagerDuty: false,
     pipelines: true,
