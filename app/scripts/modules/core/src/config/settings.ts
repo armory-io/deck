@@ -36,6 +36,7 @@ export interface IFeatures {
   // todo(mneterval): remove prior to release 1.21
   legacyArtifactsEnabled?: boolean;
   managedDelivery?: boolean;
+  managedPipelineTemplatesV2UI?: boolean;
   managedServiceAccounts?: boolean;
   managedResources?: boolean;
   notifications?: boolean;

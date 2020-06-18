@@ -20,6 +20,7 @@ var fiatEnabled = '{%features.fiat%}' === 'true';
 var gceScaleDownControlsEnabled = '{%features.gceScaleDownControlsEnabled%}' === 'true';
 var gceStatefulMigsEnabled = '{%features.gceStatefulMigsEnabled%}' === 'true';
 var iapRefresherEnabled = '{%features.iapRefresherEnabled%}' === 'true';
+var managedPipelineTemplatesV2UIEnabled = '{%features.managedPipelineTemplatesV2UI%}' === 'true';
 var maxPipelineAgeDays = '{%maxPipelineAgeDays%}';
 var mineCanaryEnabled = '{%features.mineCanary%}' === 'true';
 var notificationsEnabled = '{%notifications.enabled%}' === 'true';
@@ -160,6 +161,11 @@ window.spinnakerSettings = {
     gceScaleDownControlsEnabled: gceScaleDownControlsEnabled,
     gceStatefulMigsEnabled: gceStatefulMigsEnabled,
     iapRefresherEnabled: iapRefresherEnabled,
+<<<<<<< HEAD
+=======
+    infrastructureStages: infrastructureStagesEnabled,
+    managedPipelineTemplatesV2UI: managedPipelineTemplatesV2UIEnabled,
+>>>>>>> parent of e74046117... config(core): Remove MPTV2 UI feature flag (#7804)
     notifications: notificationsEnabled,
     pagerDuty: false,
     pipelines: true,
