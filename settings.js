@@ -19,10 +19,11 @@ const displayTimestampsInUserLocalTime = process.env.DISPLAY_TIMESTAMPS_IN_USER_
 const dryRunEnabled = process.env.DRYRUN_ENABLED === 'true' ? true : false;
 const entityTagsEnabled = process.env.ENTITY_TAGS_ENABLED === 'true' ? true : false;
 const fiatEnabled = process.env.FIAT_ENABLED === 'true' ? true : false;
-const gceScaleDownControlsEnabled = process.env.GCE_SCALE_DOWN_CONTROLS_ENABLED === 'true' ? true : false;
+const gceScaleDownControlsEnabled = process.env.GCE_SCALE_DOWN_CONTROLS_ENABLED === 'true' ? true : false; x
 const gceStatefulMigsEnabled = process.env.GCE_STATEFUL_MIGS_ENABLED === 'true' ? true : false;
 const iapRefresherEnabled = process.env.IAP_REFRESHER_ENABLED === 'true' ? true : false;
 const managedDeliveryEnabled = process.env.MANAGED_DELIVERY_ENABLED === 'true';
+const managedPipelineTemplatesV2UIEnabled = process.env.MANAGED_PIPELINE_TEMPLATES_V2_UI_ENABLED === 'true';
 const managedServiceAccountsEnabled = process.env.MANAGED_SERVICE_ACCOUNTS_ENABLED === 'true';
 const managedResourcesEnabled = process.env.MANAGED_RESOURCES_ENABLED === 'true';
 const onDemandClusterThreshold = process.env.ON_DEMAND_CLUSTER_THRESHOLD || '350';
@@ -79,6 +80,7 @@ window.spinnakerSettings = {
     gceStatefulMigsEnabled: gceStatefulMigsEnabled,
     iapRefresherEnabled: iapRefresherEnabled,
     managedDelivery: managedDeliveryEnabled,
+    managedPipelineTemplatesV2UI: managedPipelineTemplatesV2UIEnabled,
     managedServiceAccounts: managedServiceAccountsEnabled,
     managedResources: managedResourcesEnabled,
     notifications: false,

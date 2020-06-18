@@ -3,6 +3,7 @@
 import _ from 'lodash';
 import { hri as HumanReadableIds } from 'human-readable-ids';
 
+import { SETTINGS } from 'core/config';
 import { PipelineTemplateReader } from './templates/PipelineTemplateReader';
 import { PipelineTemplateV2Service } from './templates/v2/pipelineTemplateV2.service';
 import UIROUTER_ANGULARJS from '@uirouter/angularjs';
@@ -28,6 +29,10 @@ module(CORE_PIPELINE_CONFIG_PIPELINECONFIG_CONTROLLER, [UIROUTER_ANGULARJS]).con
       this.pipelineConfig = _.find(app.pipelineConfigs.data, { id: $stateParams.pipelineId });
       const isV2PipelineConfig =
         this.pipelineConfig && PipelineTemplateV2Service.isV2PipelineConfig(this.pipelineConfig);
+
+      if (this.pipelineConfig && isV2PipelineConfig && !SETTINGS.feature.managedPipelineTemplatesV2UI) {
+        return $state.go('home.applications.application.pipelines.executions', null, { location: 'replace' });
+      }
 
       if (this.pipelineConfig && this.pipelineConfig.expectedArtifacts) {
         for (const artifact of this.pipelineConfig.expectedArtifacts) {

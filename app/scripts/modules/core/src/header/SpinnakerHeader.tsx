@@ -10,6 +10,7 @@ import { Overridable } from 'core/overrideRegistry';
 import { GlobalSearch } from 'core/search/global/GlobalSearch';
 import { HelpMenu } from 'core/help/HelpMenu';
 import { Icon } from 'core/presentation';
+import { SETTINGS } from 'core/config';
 
 import './SpinnakerHeader.css';
 
@@ -51,6 +52,12 @@ export const SpinnakerHeaderContent = () => {
   const appsSref = useSrefActive('home.applications', null, 'active');
   const templatesSref = useSrefActive('home.pipeline-templates', null, 'active');
 
+  const mptv2Button = (
+    <li key="navPipelineTemplates">
+      <a {...templatesSref}>Pipeline Templates</a>
+    </li>
+  );
+
   return (
     <nav className="container spinnaker-header" role="navigation" aria-label="Main Menu">
       <div className="navbar-header horizontal middle">
@@ -73,9 +80,7 @@ export const SpinnakerHeaderContent = () => {
             <li key="navApplications">
               <a {...appsSref}>Applications</a>
             </li>
-            <li key="navPipelineTemplates">
-              <a {...templatesSref}>Pipeline Templates</a>
-            </li>
+            {SETTINGS.feature.managedPipelineTemplatesV2UI ? mptv2Button : null}
           </ul>
           <ul className="nav nav-items">
             <UserMenu />
