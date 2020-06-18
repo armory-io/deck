@@ -13,6 +13,7 @@ var defaultMetricsStore = '{%canary.defaultMetricsStore%}';
 var defaultMetricsAccountName = '{%canary.defaultMetricsAccount%}';
 var defaultStorageAccountName = '{%canary.defaultStorageAccount%}';
 var fiatEnabled = '{%features.fiat%}' === 'true';
+var managedPipelineTemplatesV2UIEnabled = '{%features.managedPipelineTemplatesV2UI%}' === 'true';
 var mineCanaryEnabled = '{%features.mineCanary%}' === 'true';
 var pipelineTemplatesEnabled = '{%features.pipelineTemplates%}' === 'true';
 var reduxLoggerEnabled = '{%canary.reduxLogger%}' === 'true';
@@ -106,6 +107,9 @@ window.spinnakerSettings = {
     canary: mineCanaryEnabled,
     chaosMonkey: chaosEnabled,
     fiatEnabled: fiatEnabled,
+    pagerDuty: false,
+    pipelines: true,
+    managedPipelineTemplatesV2UI: managedPipelineTemplatesV2UIEnabled,
     pipelineTemplates: pipelineTemplatesEnabled,
     roscoMode: true,
   },

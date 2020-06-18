@@ -34,6 +34,7 @@ export interface IFeatures {
   gceStatefulMigsEnabled?: boolean;
   iapRefresherEnabled?: boolean;
   managedDelivery?: boolean;
+  managedPipelineTemplatesV2UI?: boolean;
   managedServiceAccounts?: boolean;
   managedResources?: boolean;
   notifications?: boolean;
