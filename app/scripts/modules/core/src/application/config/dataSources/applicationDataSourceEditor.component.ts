@@ -68,7 +68,10 @@ export class DataSourceEditorController implements IController {
       dataSources: newDataSources,
     }).then(
       () => {
-        this.application.attributes.dataSources = newDataSources;
+        // this.application.attributes.dataSources = newDataSources;
+        ApplicationReader.getApplication(this.application.name, true).then(app => {
+          this.application.attributes.dataSources = app.dataSources;
+        });
         ApplicationReader.setDisabledDataSources(this.application);
         this.application.refresh(true);
         this.saving = false;
