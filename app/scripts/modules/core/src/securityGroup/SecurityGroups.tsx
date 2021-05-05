@@ -146,7 +146,7 @@ export const SecurityGroups = ({ app }: ISecurityGroupsProps) => {
         <div className="col-lg-4 col-md-2">
           <div className="application-actions">{buttonDisable ? <div /> : <CreateSecurityGroupButton app={app} />}</div>
         </div>
-        <FilterTags tags={filterModel.tags} tagCleared={updateSecurityGroupGroups} clearFilters={clearFilters} />
+        <FilterTags tags={filterModel?.tags} tagCleared={updateSecurityGroupGroups} clearFilters={clearFilters} />
       </div>
 
       <div className="content">
