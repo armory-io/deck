@@ -16,7 +16,7 @@
     "@spinnaker/core": "^0.19.1",
     "@uirouter/react": "1.0.7",
     "@uirouter/react-hybrid": "1.0.2",
-    "angular": "1.6.10",
+    "angular": "1.8.0",
     "angular-ui-bootstrap": "2.5.0",
     "enzyme": "3.10.0",
     "formik": "1.5.1",
