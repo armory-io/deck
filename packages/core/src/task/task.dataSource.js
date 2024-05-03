@@ -2,6 +2,7 @@ import * as angular from 'angular';
 
 import { ApplicationDataSourceRegistry } from '../application/service/ApplicationDataSourceRegistry';
 import { CLUSTER_SERVICE } from '../cluster/cluster.service';
+import { SETTINGS } from '../config';
 import { TaskReader } from './task.read.service';
 
 export const CORE_TASK_TASK_DATASOURCE = 'spinnaker.core.task.dataSource';
@@ -14,8 +15,18 @@ angular.module(CORE_TASK_TASK_DATASOURCE, [CLUSTER_SERVICE]).run([
       return $q.when(angular.isArray(tasks) ? tasks : []);
     };
 
-    const loadTasks = (application) => {
-      return TaskReader.getTasks(application.name);
+    const loadTasks = async (application, page = 1) => {
+      let limit = SETTINGS.tasksLimitPerPage;
+      if (limit === undefined) {
+        return TaskReader.getTasks(application.name);
+      } else {
+        const tasks = await TaskReader.getTasks(application.name, [], limit, page);
+        if (tasks.length === limit) {
+          return tasks.concat(await loadTasks(application, page + 1));
+        } else {
+          return tasks;
+        }
+      }
     };
 
     const loadRunningTasks = (application) => {
