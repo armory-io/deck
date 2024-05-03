@@ -267,7 +267,6 @@ module(CORE_TASK_TASKS_CONTROLLER, [
     $scope.$watch('viewState', cacheViewState, true);
 
     initializeViewState();
-
     application.tasks.activate();
 
     application.tasks.ready().then(() => {
