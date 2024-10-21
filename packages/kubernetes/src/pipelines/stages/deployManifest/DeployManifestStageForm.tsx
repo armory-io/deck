@@ -34,6 +34,7 @@ interface IDeployManifestStageConfigFormProps {
 interface IDeployManifestStageConfigFormState {
   rawManifest: string;
   overrideNamespace: boolean;
+  skipSpecTemplateLabels: boolean;
 }
 
 export class DeployManifestStageForm extends React.Component<
@@ -55,6 +56,7 @@ export class DeployManifestStageForm extends React.Component<
     this.state = {
       rawManifest: !isEmpty(manifests) && isTextManifest ? yamlDocumentsToString(manifests) : '',
       overrideNamespace: get(stage, 'namespaceOverride', '') !== '',
+      skipSpecTemplateLabels: get(stage, 'skipSpecTemplateLabels', false),
     };
   }
 
@@ -141,6 +143,12 @@ export class DeployManifestStageForm extends React.Component<
             />
           </StageConfigField>
         )}
+        <StageConfigField label="Skip Spec Template Labels" helpKey="kubernetes.manifest.skipSpecTemplateLabels">
+          <CheckboxInput
+            checked={stage.skipSpecTemplateLabels === true}
+            onChange={(e: any) => this.props.formik.setFieldValue('skipSpecTemplateLabels', e.target.checked)}
+          />
+        </StageConfigField>
         <hr />
         <h4>Manifest Configuration</h4>
         <StageConfigField label="Manifest Source" helpKey="kubernetes.manifest.source">
