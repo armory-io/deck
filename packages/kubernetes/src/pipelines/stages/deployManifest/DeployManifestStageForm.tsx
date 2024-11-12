@@ -143,12 +143,6 @@ export class DeployManifestStageForm extends React.Component<
             />
           </StageConfigField>
         )}
-        <StageConfigField label="Skip Spec Template Labels" helpKey="kubernetes.manifest.skipSpecTemplateLabels">
-          <CheckboxInput
-            checked={stage.skipSpecTemplateLabels === true}
-            onChange={(e: any) => this.props.formik.setFieldValue('skipSpecTemplateLabels', e.target.checked)}
-          />
-        </StageConfigField>
         <hr />
         <h4>Manifest Configuration</h4>
         <StageConfigField label="Manifest Source" helpKey="kubernetes.manifest.source">
@@ -192,6 +186,14 @@ export class DeployManifestStageForm extends React.Component<
             onChangeBindings={this.onRequiredArtifactsChanged}
             pipeline={this.props.pipeline}
             stage={stage}
+          />
+        </StageConfigField>
+        <hr />
+        <h4>Deploy Configuration</h4>
+        <StageConfigField label="Skip Spec Template Labels" helpKey="kubernetes.manifest.skipSpecTemplateLabels">
+          <CheckboxInput
+            checked={stage.skipSpecTemplateLabels === true}
+            onChange={(e: any) => this.props.formik.setFieldValue('skipSpecTemplateLabels', e.target.checked)}
           />
         </StageConfigField>
         <hr />
