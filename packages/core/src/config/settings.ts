@@ -53,7 +53,6 @@ export interface IFeatures {
   functions?: boolean;
   kubernetesRawResources?: boolean;
   renderPipelineStageThreshold?: number;
-  deployManifestStageAdvancedConfiguration?: boolean;
   pipelineRefEnabled?: boolean;
 }
 
